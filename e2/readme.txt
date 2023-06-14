@@ -1,0 +1,2 @@
+Example 2 - Backend /productTypes is pulling all products and filtering the products client side.
+SELECT product_type FROM products , change it to distinct should save few more seconds, but the real fix is to query the LUT product_types

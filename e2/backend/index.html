@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Product App</title>
+   <script>
+       document.addEventListener('DOMContentLoaded', () => {
+           const productTypesStatus = document.querySelector('#productTypesStatus');
+           productTypesStatus.textContent = 'Loading...';
+           fetch('/productTypes')
+               .then(response => response.json())
+               .then(data => {
+                   const ul = document.querySelector('#productTypes');
+                   data.forEach(item => {
+                       const li = document.createElement('li');
+                       li.textContent = item.product_type;
+                       ul.appendChild(li);
+                   });
+                   productTypesStatus.textContent = '';  // clear the status
+               });
+
+           document.querySelector('#searchButton').addEventListener('click', () => {
+               const productId = document.querySelector('#productId').value;
+               const searchStatus = document.querySelector('#searchStatus');
+               searchStatus.textContent = 'Searching...';
+               fetch(`/product/${productId}`)
+                   .then(response => response.json())
+                   .then(data => {
+                       const table = document.querySelector('#productDetails');
+                       table.innerHTML = '';  // clear the table
+                       if (data.length > 0) {
+                           Object.keys(data[0]).forEach(key => {
+                               const row = table.insertRow(-1);
+                               const cell1 = row.insertCell(0);
+                               const cell2 = row.insertCell(1);
+                               cell1.textContent = key;
+                               cell2.textContent = data[0][key];
+                           });
+                       }
+                       searchStatus.textContent = '';  // clear the status
+                   });
+           });
+       });
+   </script>
+</head>
+<body>
+   <h1>Welcome to the Product App!</h1>
+   <h2>Product Types</h2>
+   <p id="productTypesStatus"></p>
+   <ul id="productTypes"></ul>
+   <h2>Search by Product ID</h2>
+   <label for="productId">Product ID:</label>
+   <input type="text" id="productId" name="productId">
+   <button id="searchButton">Search</button>
+   <p id="searchStatus"></p>
+   <h2>Product Details</h2>
+   <table id="productDetails"></table>
+</body>
+</html>

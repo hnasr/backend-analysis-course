@@ -1,0 +1,9 @@
+-- build postgres image
+cd /home/usr/e1/pg
+docker build -t pg_e1 .
+
+cd /home/usr/e1/backend
+docker build -t nodeapp_e1 .
+
+docker run -p 15432:5432  --name pge1 -e POSTGRES_PASSWORD=postgres pg_e1
+docker run -p 8080:8080 --name nodeappe1 -e PGHOST=machinename -e PGPORT=15432 -e PGDATABASE=postgres -e PGUSER=postgres -e PGPASSWORD=postgres nodeapp_e1
