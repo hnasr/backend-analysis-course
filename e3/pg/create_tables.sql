@@ -1,6 +1,6 @@
 
-DROP TABLE products;
-DROP TABLE product_types;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS product_types;
 CREATE TABLE products (
    pid SERIAL PRIMARY KEY,
    product_name TEXT,
